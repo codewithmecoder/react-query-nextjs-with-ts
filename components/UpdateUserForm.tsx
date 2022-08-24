@@ -1,12 +1,6 @@
 import { ChangeEvent, FormEvent, useReducer } from 'react';
 import { BiBrush } from 'react-icons/bi';
 import { EmployeeModel } from '../lib/interfaces/IEmployee';
-import Bug from './Bug';
-import Success from './Success';
-
-interface Props {
-  employee: EmployeeModel;
-}
 
 const formReducer = (
   state: EmployeeModel,
@@ -17,7 +11,7 @@ const formReducer = (
     [target.name]: target.value,
   };
 };
-function UpdateUserForm({ employee }: Props) {
+function UpdateUserForm() {
   const [formData, setFormData] = useReducer(formReducer, {} as EmployeeModel);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,12 +19,12 @@ function UpdateUserForm({ employee }: Props) {
     console.log(formData);
   };
 
-  if (Object.keys(formData).length > 0)
-    return true ? (
-      <Bug message="Form Added Successfully" />
-    ) : (
-      <Success message="Form Added Successfully" />
-    );
+  // if (Object.keys(formData).length > 0)
+  //   return true ? (
+  //     <Bug message="Form Added Successfully" />
+  //   ) : (
+  //     <Success message="Form Added Successfully" />
+  //   );
   return (
     <form className="grid lg:grid-cols-2 w-full gap-4" onSubmit={handleSubmit}>
       <div className="input-type">
