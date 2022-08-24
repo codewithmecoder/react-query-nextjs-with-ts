@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* > * {
+  font-family: 'Fira Code', monospace;
+}
