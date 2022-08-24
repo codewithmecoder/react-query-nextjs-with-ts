@@ -1,16 +1,38 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { BiUserPlus } from 'react-icons/bi';
+import { useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
+import DeleteModel from '../components/DeleteModel';
 import Form from '../components/Form';
 import Table from '../components/Table';
-import { toggleChangeAction, toggleFormState } from '../redux/reducer';
+import { deleteUser, getUsers } from '../lib/helper';
+import {
+  deleteAction,
+  deleteIdState,
+  toggleChangeAction,
+  toggleFormState,
+} from '../redux/reducer';
 
 const Home: NextPage = () => {
   const visible = useSelector(toggleFormState);
+  const deleteId = useSelector(deleteIdState);
   const dispatch = useDispatch();
+  const queryclient = useQueryClient();
   const addEmpHandler = () => {
     dispatch(toggleChangeAction());
+  };
+  const deletehandler = async () => {
+    if (deleteId) {
+      await deleteUser(deleteId);
+      await queryclient.prefetchQuery('users', getUsers);
+      dispatch(deleteAction());
+    }
+  };
+
+  const canclehandler = async () => {
+    console.log('cancel');
+    dispatch(deleteAction());
   };
   return (
     <section>
@@ -36,6 +58,14 @@ const Home: NextPage = () => {
               </span>
             </button>
           </div>
+          {deleteId ? (
+            <DeleteModel
+              deletehandler={deletehandler}
+              canclehandler={canclehandler}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         {visible ? <Form /> : <></>}
         <div className="container lg:mx-auto">

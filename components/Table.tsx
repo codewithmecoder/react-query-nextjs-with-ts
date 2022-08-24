@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../lib/helper';
 import { EmployeeData } from '../lib/interfaces/IEmployee';
 import {
+  deleteAction,
   toggleChangeAction,
   toggleFormState,
   updateAction,
@@ -54,11 +55,15 @@ function Tr({ employee }: TrProps) {
   const visible = useSelector(toggleFormState);
   const dispatch = useDispatch();
   const onUpdate = () => {
-    dispatch(toggleChangeAction());
-    console.log(employee._id);
-    console.log(visible);
+    dispatch(toggleChangeAction(employee._id));
     if (visible) {
       dispatch(updateAction(employee._id));
+    }
+  };
+
+  const onDelete = () => {
+    if (!visible) {
+      dispatch(deleteAction(employee._id));
     }
   };
   return (
@@ -97,7 +102,7 @@ function Tr({ employee }: TrProps) {
         <button className="cursor" onClick={onUpdate}>
           <BiEdit size={25} color={'rgb(34,197,94)'} />
         </button>
-        <button className="cursor">
+        <button className="cursor" onClick={onDelete}>
           <BiTrashAlt size={25} color={'rgb(244,63,94)'} />
         </button>
       </td>

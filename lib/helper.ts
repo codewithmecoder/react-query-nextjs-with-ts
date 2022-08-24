@@ -39,6 +39,7 @@ export const updateUser = async (userId: string, formData: EmployeeData) => {
       },
       body: JSON.stringify(formData),
     };
+    console.log(formData);
     const res = await fetch(`${BASE_URL}/api/users/${userId}`, options);
     const json = await res.json();
     return json;

@@ -55,10 +55,10 @@ export async function postUser(req: NextApiRequest, res: NextApiResponse) {
 export async function putUser(req: NextApiRequest, res: NextApiResponse) {
   try {
     console.log(req.query);
-    const { userid } = req.query;
+    const { userId } = req.query;
     const formData = req.body;
-    if (userid && formData) {
-      const user = await User.findByIdAndUpdate(userid, formData);
+    if (userId && formData) {
+      const user = await User.findByIdAndUpdate(userId, formData);
       return res.status(200).json(user);
     }
     return res.status(404).json({ error: 'User not selected' });
@@ -70,9 +70,9 @@ export async function putUser(req: NextApiRequest, res: NextApiResponse) {
 //DELETE: /users/:id
 export async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { userid } = req.query;
-    if (userid) {
-      await User.findByIdAndDelete(userid);
+    const { userId } = req.query;
+    if (userId) {
+      await User.findByIdAndDelete(userId);
       return res.status(200).json({ message: 'user deleted' });
     }
     return res.status(404).json({ error: 'User not selected' });

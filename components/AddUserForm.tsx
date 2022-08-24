@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useReducer } from 'react';
+import { ChangeEvent, Dispatch, FormEvent } from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useMutation, useQueryClient } from 'react-query';
 import { addUser, getUsers } from '../lib/helper';
@@ -7,18 +7,14 @@ import Bug from './Bug';
 import Loading from './Loading';
 import Success from './Success';
 
-const formReducer = (
-  state: EmployeeModel,
-  { target }: ChangeEvent<HTMLInputElement>
-) => {
-  return {
-    ...state,
-    [target.name]: target.value,
-  };
-};
-function AddUserForm() {
+interface Props {
+  formData: EmployeeModel;
+  setFormData: Dispatch<ChangeEvent<HTMLInputElement>>;
+}
+
+function AddUserForm({ formData, setFormData }: Props) {
   const queryClient = useQueryClient();
-  const [formData, setFormData] = useReducer(formReducer, {} as EmployeeModel);
+
   const { mutate, isLoading, isError, error, isSuccess } = useMutation(
     addUser,
     {
@@ -102,7 +98,7 @@ function AddUserForm() {
           <input
             type="radio"
             name="status"
-            value="active"
+            value="Active"
             checked
             onChange={setFormData}
             id="radioDefault1"
@@ -116,7 +112,7 @@ function AddUserForm() {
           <input
             type="radio"
             name="status"
-            value="inactive"
+            value="Inactive"
             onChange={setFormData}
             id="radioDefault2"
             className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 bg-no-repeat bg-contain float-left mt-1 mr-2 cursor-pointer"
